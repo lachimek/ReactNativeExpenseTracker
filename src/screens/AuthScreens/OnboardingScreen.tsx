@@ -1,9 +1,8 @@
 import { StyleSheet, Text, View, Image } from "react-native";
-import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import React, { useState } from "react";
 
 import PaginationDot from "react-native-animated-pagination-dot";
-import { Button } from "../components/Button/Button";
+import { Button } from "@components/Button/Button";
 
 const CATCHPHRASES = ["Helps you to track your expenses.", "Helps you save money.", "Create budgets you can stick to."];
 
@@ -14,7 +13,7 @@ const OnboardingScreen = ({ navigation }: any) => {
         <View style={styles.container}>
             <View style={styles.imageAndText}>
                 <Image
-                    source={require("../assets/onboarding-page-image.png")}
+                    source={require("@assets/onboarding-page-image.png")}
                     style={styles.image}
                     resizeMode={"contain"}
                 />

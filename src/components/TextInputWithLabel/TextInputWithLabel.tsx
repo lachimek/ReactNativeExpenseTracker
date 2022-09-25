@@ -1,4 +1,4 @@
-import { StyleSheet, Text, TextInput, TextInputComponent, View } from "react-native";
+import { StyleSheet, Text, TextInput, View } from "react-native";
 import React from "react";
 
 type TextInputWithLabelProps = React.ComponentProps<typeof TextInput> & {

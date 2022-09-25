@@ -1,10 +1,9 @@
 import { StyleSheet, Text, View, Image } from "react-native";
 import React, { useState } from "react";
-import { useKeyboardShown } from "../hooks/useKeyboardShown";
-import { useAuth } from "../hooks/useAuth";
-import TextInputWithLabel from "../components/TextInputWithLabel/TextInputWithLabel";
-import { Button } from "../components/Button/Button";
-import Modal from "../components/Modal/Modal";
+import { useKeyboardShown } from "@hooks/useKeyboardShown";
+import { useAuth } from "@hooks/useAuth";
+import TextInputWithLabel from "@components/TextInputWithLabel/TextInputWithLabel";
+import { Button } from "@components/Button/Button";
 
 const LoginScreen = () => {
     const [email, setEmail] = useState("");
@@ -37,8 +36,9 @@ const LoginScreen = () => {
     return (
         <View style={[styles.container, keyboardShown ? { paddingTop: 30 } : {}]}>
             {!keyboardShown && (
-                <Image source={require("../assets/login-page-image.png")} style={styles.image} resizeMode={"contain"} />
+                <Image source={require("@assets/login-page-image.png")} style={styles.image} resizeMode={"contain"} />
             )}
+            <Text style={styles.headerText}>Sign In</Text>
             <TextInputWithLabel
                 value={email}
                 onChangeText={validateEmail}
@@ -78,6 +78,7 @@ const styles = StyleSheet.create({
         aspectRatio: 1240 / 1152,
         marginBottom: 40,
     },
+    headerText: {},
     buttonContainer: {
         width: "100%",
         marginTop: 25,

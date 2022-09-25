@@ -1,10 +1,10 @@
 import { StyleSheet, Text, Image, View, Keyboard } from "react-native";
-import React, { useEffect, useState } from "react";
-import TextInputWithLabel from "../components/TextInputWithLabel/TextInputWithLabel";
-import { Button } from "../components/Button/Button";
-import { useKeyboardShown } from "../hooks/useKeyboardShown";
-import { useAuth } from "../hooks/useAuth";
-import Modal from "../components/Modal/Modal";
+import React, { useState } from "react";
+import TextInputWithLabel from "@components/TextInputWithLabel/TextInputWithLabel";
+import { Button } from "@components/Button/Button";
+import { useKeyboardShown } from "@hooks/useKeyboardShown";
+import { useAuth } from "@hooks/useAuth";
+import Modal from "@components/Modal/Modal";
 
 const RegisterScreen = ({ navigation }: any) => {
     const [email, setEmail] = useState("test@test.com");
@@ -49,7 +49,7 @@ const RegisterScreen = ({ navigation }: any) => {
         <View style={[styles.container, keyboardShown ? { paddingTop: 30 } : {}]}>
             {!keyboardShown && (
                 <Image
-                    source={require("../assets/register-page-image.png")}
+                    source={require("@assets/register-page-image.png")}
                     style={styles.image}
                     resizeMode={"contain"}
                 />

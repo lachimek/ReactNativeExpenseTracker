@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, Modal as RnModal, Pressable } from "react-native";
-import React, { useState } from "react";
+import React from "react";
 
 interface ModalProps {
     component: React.ReactElement;

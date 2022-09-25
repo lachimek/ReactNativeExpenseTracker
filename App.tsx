@@ -1,5 +1,4 @@
 import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import {
     useFonts,
     ReadexPro_200ExtraLight,
@@ -10,11 +9,9 @@ import {
     ReadexPro_700Bold,
 } from "@expo-google-fonts/readex-pro";
 import * as SplashScreen from "expo-splash-screen";
-import LoginScreen from "./screens/LoginScreen";
-import { useCallback, useEffect, useState } from "react";
-import { View, Text } from "react-native";
-import OnboardingScreen from "./screens/OnboardingScreen";
-import AuthStack from "./nvaigation/AuthStack";
+import { useCallback } from "react";
+import { View } from "react-native";
+import AuthStack from "@navigation/AuthStack";
 
 SplashScreen.preventAutoHideAsync();
 
