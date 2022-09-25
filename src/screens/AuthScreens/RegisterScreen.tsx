@@ -49,9 +49,9 @@ const RegisterScreen = ({ navigation }: any) => {
         resolver: yupResolver(schema),
     });
 
-    const onSubmit = (data: RegisterUser) => {
-        if (register(data.email, data.password)) {
-            setIsOpen(true);
+    const onSubmit = async (data: RegisterUser) => {
+        if (await register(data.email, data.password)) {
+            setIsOpen(!isOpen);
         }
     };
 
@@ -73,6 +73,8 @@ const RegisterScreen = ({ navigation }: any) => {
                         value={value}
                         errorMessage={errors?.email?.message}
                         label="Your email address"
+                        editable={!formState.isSubmitting}
+                        selectTextOnFocus={formState.isSubmitting}
                     />
                 )}
                 name="email"
@@ -87,6 +89,8 @@ const RegisterScreen = ({ navigation }: any) => {
                         errorMessage={errors?.password?.message}
                         label="Your password"
                         secureTextEntry={true}
+                        editable={!formState.isSubmitting}
+                        selectTextOnFocus={formState.isSubmitting}
                     />
                 )}
                 name="password"
@@ -101,6 +105,8 @@ const RegisterScreen = ({ navigation }: any) => {
                         errorMessage={errors?.passwordRepeat?.message}
                         label="Confirm your password"
                         secureTextEntry={true}
+                        editable={!formState.isSubmitting}
+                        selectTextOnFocus={formState.isSubmitting}
                     />
                 )}
                 name="passwordRepeat"
@@ -110,7 +116,7 @@ const RegisterScreen = ({ navigation }: any) => {
                     variant="big"
                     title="Create an account"
                     onPress={handleSubmit(onSubmit)}
-                    disabled={!formState.isValid}
+                    disabled={!formState.isValid || formState.isSubmitting}
                 />
                 <View style={styles.underButtonTextContainer}>
                     <Text style={styles.underButtonText}>

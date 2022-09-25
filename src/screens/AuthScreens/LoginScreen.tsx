@@ -1,36 +1,49 @@
 import { StyleSheet, Text, View, Image } from "react-native";
 import React, { useState } from "react";
+import { Controller, useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
 import { useKeyboardShown } from "@hooks/useKeyboardShown";
 import { useAuth } from "@hooks/useAuth";
 import TextInputWithLabel from "@components/TextInputWithLabel/TextInputWithLabel";
 import { Button } from "@components/Button/Button";
 
-const LoginScreen = () => {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+type LoginUser = {
+    email: string;
+    password: string;
+};
 
+const LoginScreen = () => {
     const { keyboardShown } = useKeyboardShown();
     const { login } = useAuth();
-    const [formErrorState, setFormErrorState] = useState(false);
-    const [errorMessageEmail, setErrorMessageEmail] = useState("");
-    const [errorMessagePassword, setErrorMessagePassword] = useState("");
 
-    const validateEmail = (text: string) => {
-        const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
-        if (reg.test(text) === false) {
-            setErrorMessageEmail("Invalid email address.");
-            setFormErrorState(true);
-            setEmail(text);
-            return;
-        } else {
-            setFormErrorState(false);
-            setErrorMessageEmail("");
-            setEmail(text);
-        }
-    };
+    const schema = yup
+        .object()
+        .shape({
+            email: yup.string().email("Invalid email address.").required("This is required."),
+            password: yup
+                .string()
+                .min(8, "Password must be at least 8 characters.")
+                .max(24, "Password must be at most 24 characters."),
+        })
+        .required();
 
-    const handleSubmit = () => {
-        // setIsOpen(true);
+    const {
+        control,
+        handleSubmit,
+        formState,
+        formState: { errors },
+    } = useForm<LoginUser>({
+        defaultValues: {
+            email: "test@test.com",
+            password: "test1234",
+        },
+        resolver: yupResolver(schema),
+    });
+
+    const onSubmit = async (data: LoginUser) => {
+        const result = await login(data.email, data.password);
+        console.log(data);
     };
 
     return (
@@ -38,22 +51,35 @@ const LoginScreen = () => {
             {!keyboardShown && (
                 <Image source={require("@assets/login-page-image.png")} style={styles.image} resizeMode={"contain"} />
             )}
-            <Text style={styles.headerText}>Sign In</Text>
-            <TextInputWithLabel
-                value={email}
-                onChangeText={validateEmail}
-                label="Your email address"
-                errorMessage={errorMessageEmail}
+            <Controller
+                control={control}
+                render={({ field: { onChange, onBlur, value } }) => (
+                    <TextInputWithLabel
+                        onBlur={onBlur}
+                        onChangeText={onChange}
+                        value={value}
+                        errorMessage={errors?.email?.message}
+                        label="Your email address"
+                    />
+                )}
+                name="email"
             />
-            <TextInputWithLabel
-                value={password}
-                onChangeText={setPassword}
-                label="Your password"
-                secureTextEntry={true}
-                errorMessage={errorMessagePassword}
+            <Controller
+                control={control}
+                render={({ field: { onChange, onBlur, value } }) => (
+                    <TextInputWithLabel
+                        onBlur={onBlur}
+                        onChangeText={onChange}
+                        value={value}
+                        errorMessage={errors?.password?.message}
+                        label="Your password"
+                        secureTextEntry={true}
+                    />
+                )}
+                name="password"
             />
             <View style={styles.buttonContainer}>
-                <Button variant="big" title="Sign in" onPress={handleSubmit} disabled={formErrorState} />
+                <Button variant="big" title="Sign in" onPress={handleSubmit(onSubmit)} disabled={!formState.isValid} />
             </View>
         </View>
     );
@@ -78,7 +104,6 @@ const styles = StyleSheet.create({
         aspectRatio: 1240 / 1152,
         marginBottom: 40,
     },
-    headerText: {},
     buttonContainer: {
         width: "100%",
         marginTop: 25,

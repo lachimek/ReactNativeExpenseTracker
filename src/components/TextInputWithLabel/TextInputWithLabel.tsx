@@ -21,6 +21,9 @@ const TextInputWithLabel = (props: TextInputWithLabelProps) => {
                         : {
                               borderColor: "#51DE9A",
                           },
+                    props.editable && props.selectTextOnFocus
+                        ? { backgroundColor: "#e0e0e0" }
+                        : { backgroundColor: "#F4FFF9" },
                 ]}
                 {...props}
             />
@@ -42,7 +45,6 @@ const styles = StyleSheet.create({
         marginLeft: 10,
         marginBottom: -10,
         paddingHorizontal: 5,
-        backgroundColor: "#F4FFF9",
         zIndex: 1,
         alignSelf: "flex-start",
         fontFamily: "ReadexPro_200",
