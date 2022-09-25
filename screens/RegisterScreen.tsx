@@ -4,14 +4,16 @@ import TextInputWithLabel from "../components/TextInputWithLabel/TextInputWithLa
 import { Button } from "../components/Button/Button";
 import { useKeyboardShown } from "../hooks/useKeyboardShown";
 import { useAuth } from "../hooks/useAuth";
+import Modal from "../components/Modal/Modal";
 
 const RegisterScreen = ({ navigation }: any) => {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [confirmPassword, setConfirmPassword] = useState("");
+    const [email, setEmail] = useState("test@test.com");
+    const [password, setPassword] = useState("test");
+    const [confirmPassword, setConfirmPassword] = useState("test");
     const [formErrorState, setFormErrorState] = useState(false);
     const [errorMessageEmail, setErrorMessageEmail] = useState("");
     const [errorMessagePassword, setErrorMessagePassword] = useState("");
+    const [isOpen, setIsOpen] = useState(false);
     const { keyboardShown } = useKeyboardShown();
     const { register } = useAuth();
 
@@ -38,8 +40,9 @@ const RegisterScreen = ({ navigation }: any) => {
             return;
         }
 
-        register(email, password);
-        navigation.navigate("Login");
+        if (register(email, password)) {
+            setIsOpen(true);
+        }
     };
 
     return (
@@ -80,7 +83,7 @@ const RegisterScreen = ({ navigation }: any) => {
                 errorMessage={errorMessagePassword}
             />
             <View style={styles.buttonContainer}>
-                <Button title="Create an account" onPress={handleSubmit} disabled={formErrorState} />
+                <Button variant="big" title="Create an account" onPress={handleSubmit} disabled={formErrorState} />
                 <View style={styles.underButtonTextContainer}>
                     <Text style={styles.underButtonText}>
                         Already have an account?{" "}
@@ -90,6 +93,21 @@ const RegisterScreen = ({ navigation }: any) => {
                     </Text>
                 </View>
             </View>
+            <Modal
+                component={
+                    <View style={{ paddingHorizontal: 30, alignItems: "center" }}>
+                        <Text style={styles.modalText}>Account created!</Text>
+                        <Button
+                            variant="small"
+                            title="Go to login"
+                            customStyles={{ paddingHorizontal: 30 }}
+                            onPress={() => navigation.navigate("Login")}
+                        />
+                    </View>
+                }
+                isOpen={isOpen}
+                setIsOpen={setIsOpen}
+            />
         </View>
     );
 };
@@ -128,5 +146,10 @@ const styles = StyleSheet.create({
     underButtonTextInner: {
         fontFamily: "ReadexPro_600",
         textDecorationLine: "underline",
+    },
+    modalText: {
+        fontFamily: "ReadexPro_600",
+        fontSize: 24,
+        marginBottom: 20,
     },
 });

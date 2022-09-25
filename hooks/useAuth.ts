@@ -18,6 +18,7 @@ export const useAuth = () => {
 
     const register = (email: string, password: string) => {
         console.log("REGISTER: ", email, password);
+        return true;
     };
 
     return { user, loading, login, register, logout };

@@ -1,33 +1,64 @@
 import { TouchableOpacity, Text, GestureResponderEvent, StyleSheet } from "react-native";
-export const Button = ({
-    onPress,
-    title,
-    disabled,
-}: {
+
+interface ButtonProps {
     onPress: (event: GestureResponderEvent) => void;
     title: string;
     disabled?: boolean;
-}) => (
-    <TouchableOpacity
-        onPress={onPress}
-        style={[styles.buttonContainer, disabled ? { backgroundColor: "#E3E6E8" } : {}]}
-        disabled={disabled}
-    >
-        <Text style={styles.buttonText}>{title}</Text>
-    </TouchableOpacity>
-);
+    customStyles?: {};
+    variant: "big" | "small";
+}
+
+const handleVariant = (variant: ButtonProps["variant"]) => {
+    if (variant === "big") {
+        return { container: styles.buttonContainerBig, text: styles.buttonTextBig };
+    }
+
+    if (variant === "small") {
+        return { container: styles.buttonContainerSmall, text: styles.buttonTextSmall };
+    }
+
+    return {};
+};
+
+export const Button = ({ onPress, title, disabled, customStyles, variant }: ButtonProps) => {
+    return (
+        <TouchableOpacity
+            onPress={onPress}
+            style={[
+                styles.buttonContainerCommon,
+                handleVariant(variant).container,
+                disabled ? { backgroundColor: "#E3E6E8" } : {},
+                { ...customStyles },
+            ]}
+            disabled={disabled}
+        >
+            <Text style={[styles.buttonTextCommon, handleVariant(variant).text]}>{title}</Text>
+        </TouchableOpacity>
+    );
+};
 
 const styles = StyleSheet.create({
-    buttonContainer: {
+    buttonContainerCommon: {
         backgroundColor: "#51DE9A",
+    },
+    buttonContainerBig: {
         borderRadius: 15,
     },
-    buttonText: {
+    buttonContainerSmall: {
+        borderRadius: 10,
+    },
+    buttonTextCommon: {
         textAlign: "center",
-        paddingVertical: 20,
         color: "#FFF",
         fontFamily: "ReadexPro_500",
+    },
+    buttonTextBig: {
         fontSize: 24,
         lineHeight: 30,
+        paddingVertical: 20,
+    },
+    buttonTextSmall: {
+        fontSize: 16,
+        paddingVertical: 10,
     },
 });

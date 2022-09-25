@@ -13,7 +13,11 @@ const OnboardingScreen = ({ navigation }: any) => {
     return (
         <View style={styles.container}>
             <View style={styles.imageAndText}>
-                <Image source={require("../assets/login-page-image.png")} style={styles.image} resizeMode={"contain"} />
+                <Image
+                    source={require("../assets/onboarding-page-image.png")}
+                    style={styles.image}
+                    resizeMode={"contain"}
+                />
                 <Text style={styles.text}>Helps you to track your expenses.</Text>
                 <View style={styles.dotContainer}>
                     <PaginationDot
@@ -25,7 +29,7 @@ const OnboardingScreen = ({ navigation }: any) => {
                 </View>
             </View>
             <View style={styles.buttonContainer}>
-                <Button title="Let's Start!" onPress={() => navigation.navigate("Register")} />
+                <Button variant="big" title="Let's Start!" onPress={() => navigation.navigate("Register")} />
                 <View style={styles.underButtonTextContainer}>
                     <Text style={styles.underButtonText}>
                         Already have an account?{" "}
