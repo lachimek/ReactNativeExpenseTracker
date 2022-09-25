@@ -1,52 +1,62 @@
-import { StyleSheet, Text, Image, View, Keyboard } from "react-native";
+import { StyleSheet, Text, Image, View, SafeAreaView } from "react-native";
 import React, { useState } from "react";
+import { useForm, Controller } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
 import TextInputWithLabel from "@components/TextInputWithLabel/TextInputWithLabel";
 import { Button } from "@components/Button/Button";
 import { useKeyboardShown } from "@hooks/useKeyboardShown";
 import { useAuth } from "@hooks/useAuth";
 import Modal from "@components/Modal/Modal";
 
+type RegisterUser = {
+    email: string;
+    password: string;
+    passwordRepeat: string;
+};
+
 const RegisterScreen = ({ navigation }: any) => {
-    const [email, setEmail] = useState("test@test.com");
-    const [password, setPassword] = useState("test");
-    const [confirmPassword, setConfirmPassword] = useState("test");
-    const [formErrorState, setFormErrorState] = useState(false);
-    const [errorMessageEmail, setErrorMessageEmail] = useState("");
-    const [errorMessagePassword, setErrorMessagePassword] = useState("");
     const [isOpen, setIsOpen] = useState(false);
     const { keyboardShown } = useKeyboardShown();
     const { register } = useAuth();
 
-    const validateEmail = (text: string) => {
-        const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
-        if (reg.test(text) === false) {
-            setErrorMessageEmail("Invalid email address.");
-            setFormErrorState(true);
-            setEmail(text);
-            return;
-        } else {
-            setFormErrorState(false);
-            setErrorMessageEmail("");
-            setEmail(text);
-        }
-    };
+    const schema = yup
+        .object()
+        .shape({
+            email: yup.string().email("Invalid email address.").required("This is required."),
+            password: yup
+                .string()
+                .min(8, "Password must be at least 8 characters.")
+                .max(24, "Password must be at most 24 characters."),
+            passwordRepeat: yup
+                .string()
+                .oneOf([yup.ref("password"), null], "Passwords must match")
+                .required("This is required."),
+        })
+        .required();
 
-    const handleSubmit = () => {
-        if (formErrorState) return;
+    const {
+        control,
+        handleSubmit,
+        formState,
+        formState: { errors },
+    } = useForm<RegisterUser>({
+        defaultValues: {
+            email: "test@test.com",
+            password: "test1234",
+            passwordRepeat: "test1234",
+        },
+        resolver: yupResolver(schema),
+    });
 
-        if (password !== confirmPassword) {
-            setFormErrorState(true);
-            setErrorMessagePassword("Passwords do not match.");
-            return;
-        }
-
-        if (register(email, password)) {
+    const onSubmit = (data: RegisterUser) => {
+        if (register(data.email, data.password)) {
             setIsOpen(true);
         }
     };
 
     return (
-        <View style={[styles.container, keyboardShown ? { paddingTop: 30 } : {}]}>
+        <SafeAreaView style={[styles.container, keyboardShown ? { justifyContent: "flex-start", paddingTop: 30 } : {}]}>
             {!keyboardShown && (
                 <Image
                     source={require("@assets/register-page-image.png")}
@@ -54,36 +64,54 @@ const RegisterScreen = ({ navigation }: any) => {
                     resizeMode={"contain"}
                 />
             )}
-            <TextInputWithLabel
-                value={email}
-                onChangeText={validateEmail}
-                label="Your email address"
-                errorMessage={errorMessageEmail}
+            <Controller
+                control={control}
+                render={({ field: { onChange, onBlur, value } }) => (
+                    <TextInputWithLabel
+                        onBlur={onBlur}
+                        onChangeText={onChange}
+                        value={value}
+                        errorMessage={errors?.email?.message}
+                        label="Your email address"
+                    />
+                )}
+                name="email"
             />
-            <TextInputWithLabel
-                value={password}
-                onChangeText={(text) => {
-                    setErrorMessagePassword("");
-                    setFormErrorState(false);
-                    setPassword(text);
-                }}
-                label="Your password"
-                secureTextEntry={true}
-                errorMessage={errorMessagePassword}
+            <Controller
+                control={control}
+                render={({ field: { onChange, onBlur, value } }) => (
+                    <TextInputWithLabel
+                        onBlur={onBlur}
+                        onChangeText={onChange}
+                        value={value}
+                        errorMessage={errors?.password?.message}
+                        label="Your password"
+                        secureTextEntry={true}
+                    />
+                )}
+                name="password"
             />
-            <TextInputWithLabel
-                value={confirmPassword}
-                onChangeText={(text) => {
-                    setErrorMessagePassword("");
-                    setFormErrorState(false);
-                    setConfirmPassword(text);
-                }}
-                label="Confirm your password"
-                secureTextEntry={true}
-                errorMessage={errorMessagePassword}
+            <Controller
+                control={control}
+                render={({ field: { onChange, onBlur, value } }) => (
+                    <TextInputWithLabel
+                        onBlur={onBlur}
+                        onChangeText={onChange}
+                        value={value}
+                        errorMessage={errors?.passwordRepeat?.message}
+                        label="Confirm your password"
+                        secureTextEntry={true}
+                    />
+                )}
+                name="passwordRepeat"
             />
             <View style={styles.buttonContainer}>
-                <Button variant="big" title="Create an account" onPress={handleSubmit} disabled={formErrorState} />
+                <Button
+                    variant="big"
+                    title="Create an account"
+                    onPress={handleSubmit(onSubmit)}
+                    disabled={!formState.isValid}
+                />
                 <View style={styles.underButtonTextContainer}>
                     <Text style={styles.underButtonText}>
                         Already have an account?{" "}
@@ -108,7 +136,7 @@ const RegisterScreen = ({ navigation }: any) => {
                 isOpen={isOpen}
                 setIsOpen={setIsOpen}
             />
-        </View>
+        </SafeAreaView>
     );
 };
 

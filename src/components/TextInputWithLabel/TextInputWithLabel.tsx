@@ -11,7 +11,19 @@ const TextInputWithLabel = (props: TextInputWithLabelProps) => {
     return (
         <View style={styles.inputWrapper}>
             <Text style={styles.inputLabel}>{label}</Text>
-            <TextInput style={styles.input} {...props} />
+            <TextInput
+                style={[
+                    styles.input,
+                    errorMessage
+                        ? {
+                              borderColor: "#cc0000",
+                          }
+                        : {
+                              borderColor: "#51DE9A",
+                          },
+                ]}
+                {...props}
+            />
             {errorMessage && errorMessage !== "" && <Text style={styles.errorMessage}>{errorMessage}</Text>}
         </View>
     );
@@ -41,7 +53,6 @@ const styles = StyleSheet.create({
         paddingVertical: 10,
         borderWidth: 2,
         borderRadius: 10,
-        borderColor: "#51DE9A",
         fontFamily: "ReadexPro_300",
     },
     errorMessage: {

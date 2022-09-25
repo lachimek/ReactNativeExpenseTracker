@@ -34,7 +34,7 @@ const LoginScreen = () => {
     };
 
     return (
-        <View style={[styles.container, keyboardShown ? { paddingTop: 30 } : {}]}>
+        <View style={[styles.container, keyboardShown ? { justifyContent: "flex-start", paddingTop: 30 } : {}]}>
             {!keyboardShown && (
                 <Image source={require("@assets/login-page-image.png")} style={styles.image} resizeMode={"contain"} />
             )}
