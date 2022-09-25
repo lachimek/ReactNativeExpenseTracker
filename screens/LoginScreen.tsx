@@ -1,45 +1,19 @@
-import { StyleSheet, Text, View, Image, Button } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import React, { useState } from "react";
-
-import PaginationDot from "react-native-animated-pagination-dot";
-import { LoginButton } from "../../components/LoginButton/LoginButton";
 
 const CATCHPHRASES = ["Helps you to track your expenses.", "Helps you save money.", "Create budgets you can stick to."];
 
 const LoginScreen = () => {
     const [currentId, setCurrentId] = useState(0);
+
     return (
         <View style={styles.container}>
-            <View style={styles.imageAndText}>
-                <Image
-                    source={require("../../assets/login-page-image.png")}
-                    style={styles.image}
-                    resizeMode={"contain"}
-                />
-                <Text style={styles.text}>Helps you to track your expenses.</Text>
-                <View style={styles.dotContainer}>
-                    <PaginationDot
-                        activeDotColor="#1D2A30"
-                        inactiveDotColor="#9CB0A4"
-                        curPage={currentId}
-                        maxPage={3}
-                    ></PaginationDot>
-                </View>
-            </View>
-            <View style={styles.buttonContainer}>
-                <LoginButton title="Let's Start!" onPress={() => {}} />
-                <View style={styles.underButtonTextContainer}>
-                    <Text style={styles.underButtonText}>
-                        Already have an account? <Text style={styles.underButtonTextInner}>Sign In</Text>
-                    </Text>
-                </View>
-            </View>
+            <Text>Login screen</Text>
         </View>
     );
 };
 
 export default LoginScreen;
-//export default withGlobalFont(LoginScreen);
 
 const styles = StyleSheet.create({
     container: {

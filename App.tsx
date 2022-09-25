@@ -1,4 +1,4 @@
-import { NavigationContainer, DefaultTheme } from "@react-navigation/native";
+import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import {
     useFonts,
@@ -9,14 +9,14 @@ import {
     ReadexPro_600SemiBold,
     ReadexPro_700Bold,
 } from "@expo-google-fonts/readex-pro";
-import * as Font from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
-import LoginScreen from "./Screens/LoginScreen/LoginScreen";
+import LoginScreen from "./screens/LoginScreen";
 import { useCallback, useEffect, useState } from "react";
 import { View, Text } from "react-native";
+import OnboardingScreen from "./screens/OnboardingScreen";
+import AuthStack from "./nvaigation/AuthStack";
 
 SplashScreen.preventAutoHideAsync();
-const Stack = createNativeStackNavigator();
 
 export default function App() {
     const [fontsLoaded] = useFonts({
@@ -40,9 +40,7 @@ export default function App() {
     return (
         <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
             <NavigationContainer>
-                <Stack.Navigator>
-                    <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
-                </Stack.Navigator>
+                <AuthStack />
             </NavigationContainer>
         </View>
     );
