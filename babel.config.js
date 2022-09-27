@@ -12,6 +12,7 @@ module.exports = function (api) {
                         "@hooks": "./src/hooks",
                         "@navigation": "./src/navigation",
                         "@screens": "./src/screens",
+                        "@context": "./src/context",
                         "@assets": "./assets",
                     },
                 },

@@ -13,6 +13,9 @@ import { useCallback } from "react";
 import { View } from "react-native";
 import AuthStack from "@navigation/AuthStack";
 import AppStack from "@navigation/AppStack";
+import { AuthProvider } from "@context/authContext";
+import { useAuth } from "@hooks/useAuth";
+import ScreensContainer from "@screens/ScreensContainer";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -37,7 +40,9 @@ export default function App() {
 
     return (
         <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
-            <NavigationContainer>{true ? <AuthStack /> : <AppStack />}</NavigationContainer>
+            <AuthProvider>
+                <ScreensContainer />
+            </AuthProvider>
         </View>
     );
 }
