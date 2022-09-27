@@ -1,4 +1,4 @@
-import { TouchableOpacity, Text, GestureResponderEvent, StyleSheet } from "react-native";
+import { TouchableOpacity, Text, GestureResponderEvent, StyleSheet, ActivityIndicator } from "react-native";
 
 interface ButtonProps {
     onPress: (event: GestureResponderEvent) => void;
@@ -6,6 +6,7 @@ interface ButtonProps {
     disabled?: boolean;
     customStyles?: {};
     variant: "big" | "small";
+    loading?: boolean;
 }
 
 const handleVariant = (variant: ButtonProps["variant"]) => {
@@ -20,19 +21,18 @@ const handleVariant = (variant: ButtonProps["variant"]) => {
     return {};
 };
 
-export const Button = ({ onPress, title, disabled, customStyles, variant }: ButtonProps) => {
+export const Button = ({ onPress, title, disabled, customStyles, variant, loading }: ButtonProps) => {
     return (
         <TouchableOpacity
             onPress={onPress}
-            style={[
-                styles.buttonContainerCommon,
-                handleVariant(variant).container,
-                disabled ? { backgroundColor: "#E3E6E8" } : {},
-                { ...customStyles },
-            ]}
+            style={[styles.buttonContainerCommon, handleVariant(variant).container, { ...customStyles }]}
             disabled={disabled}
         >
-            <Text style={[styles.buttonTextCommon, handleVariant(variant).text]}>{title}</Text>
+            {loading ? (
+                <ActivityIndicator size="large" color="#fff" />
+            ) : (
+                <Text style={[styles.buttonTextCommon, handleVariant(variant).text]}>{title}</Text>
+            )}
         </TouchableOpacity>
     );
 };
@@ -40,12 +40,15 @@ export const Button = ({ onPress, title, disabled, customStyles, variant }: Butt
 const styles = StyleSheet.create({
     buttonContainerCommon: {
         backgroundColor: "#51DE9A",
+        justifyContent: "center",
     },
     buttonContainerBig: {
         borderRadius: 15,
+        height: 70,
     },
     buttonContainerSmall: {
         borderRadius: 10,
+        height: 40,
     },
     buttonTextCommon: {
         textAlign: "center",
@@ -55,10 +58,8 @@ const styles = StyleSheet.create({
     buttonTextBig: {
         fontSize: 24,
         lineHeight: 30,
-        paddingVertical: 20,
     },
     buttonTextSmall: {
         fontSize: 16,
-        paddingVertical: 10,
     },
 });

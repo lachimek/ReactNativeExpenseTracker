@@ -51,7 +51,7 @@ const RegisterScreen = ({ navigation }: any) => {
 
     const onSubmit = async (data: RegisterUser) => {
         if (await register(data.email, data.password)) {
-            setIsOpen(!isOpen);
+            // setIsOpen(!isOpen);
         }
     };
 
@@ -117,6 +117,7 @@ const RegisterScreen = ({ navigation }: any) => {
                     title="Create an account"
                     onPress={handleSubmit(onSubmit)}
                     disabled={!formState.isValid || formState.isSubmitting}
+                    loading={formState.isSubmitting}
                 />
                 <View style={styles.underButtonTextContainer}>
                     <Text style={styles.underButtonText}>

@@ -80,7 +80,13 @@ const LoginScreen = ({ navigation }: any) => {
                 name="password"
             />
             <View style={styles.buttonContainer}>
-                <Button variant="big" title="Sign in" onPress={handleSubmit(onSubmit)} disabled={!formState.isValid} />
+                <Button
+                    variant="big"
+                    title="Sign in"
+                    onPress={handleSubmit(onSubmit)}
+                    disabled={!formState.isValid || formState.isSubmitting}
+                    loading={formState.isSubmitting}
+                />
             </View>
         </View>
     );
