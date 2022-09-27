@@ -13,7 +13,7 @@ type LoginUser = {
     password: string;
 };
 
-const LoginScreen = () => {
+const LoginScreen = ({ navigation }: any) => {
     const { keyboardShown } = useKeyboardShown();
     const { login } = useAuth();
 
@@ -42,8 +42,9 @@ const LoginScreen = () => {
     });
 
     const onSubmit = async (data: LoginUser) => {
-        const result = await login(data.email, data.password);
-        console.log(data);
+        if (await login(data.email, data.password)) {
+            //navigation.navigate("Home");
+        }
     };
 
     return (

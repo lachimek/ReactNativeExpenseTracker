@@ -12,6 +12,7 @@ import * as SplashScreen from "expo-splash-screen";
 import { useCallback } from "react";
 import { View } from "react-native";
 import AuthStack from "@navigation/AuthStack";
+import AppStack from "@navigation/AppStack";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -36,9 +37,7 @@ export default function App() {
 
     return (
         <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
-            <NavigationContainer>
-                <AuthStack />
-            </NavigationContainer>
+            <NavigationContainer>{true ? <AuthStack /> : <AppStack />}</NavigationContainer>
         </View>
     );
 }
