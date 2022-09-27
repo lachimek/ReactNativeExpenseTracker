@@ -42,6 +42,7 @@ const styles = StyleSheet.create({
     inputLabel: {
         fontSize: 12,
         color: "gray",
+        backgroundColor: "#F4FFF9",
         marginLeft: 10,
         marginBottom: -10,
         paddingHorizontal: 5,

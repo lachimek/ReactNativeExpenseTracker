@@ -28,7 +28,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         setLoading(true);
         await sleep(2000);
         if (password === "test1234") {
-            setUser({ email: email, token: "213123123123" });
+            //setUser({ email: email, token: "213123123123" });
             setLoading(false);
             return true;
         }

@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Image } from "react-native";
+import { StyleSheet, Text, View, Image, Pressable } from "react-native";
 import React, { useState } from "react";
 
 import PaginationDot from "react-native-animated-pagination-dot";
@@ -30,12 +30,10 @@ const OnboardingScreen = ({ navigation }: any) => {
             <View style={styles.buttonContainer}>
                 <Button variant="big" title="Let's Start!" onPress={() => navigation.navigate("Register")} />
                 <View style={styles.underButtonTextContainer}>
-                    <Text style={styles.underButtonText}>
-                        Already have an account?{" "}
-                        <Text style={styles.underButtonTextInner} onPress={() => navigation.navigate("Login")}>
-                            Sign In
-                        </Text>
-                    </Text>
+                    <Text style={styles.underButtonText}>Already have an account? </Text>
+                    <Pressable onPress={() => navigation.navigate("Login")}>
+                        <Text style={[styles.underButtonText, styles.underButtonTextInner]}>Sign In</Text>
+                    </Pressable>
                 </View>
             </View>
         </View>
@@ -84,9 +82,11 @@ const styles = StyleSheet.create({
     },
     underButtonTextContainer: {
         marginTop: 10,
+        flexDirection: "row",
+        justifyContent: "center",
+        alignItems: "center",
     },
     underButtonText: {
-        textAlign: "center",
         color: "#51DE9A",
         fontSize: 12,
         lineHeight: 12,
