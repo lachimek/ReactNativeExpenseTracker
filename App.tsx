@@ -39,7 +39,7 @@ export default function App() {
     }
 
     return (
-        <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
+        <View style={{ flex: 1, marginTop: 22 }} onLayout={onLayoutRootView}>
             <AuthProvider>
                 <ScreensContainer />
             </AuthProvider>

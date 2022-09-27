@@ -37,7 +37,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     };
 
     const logout = () => {
-        setUser({ email: "", token: "" });
+        console.log("LOGOUT");
+        setUser(null);
     };
 
     const register = async (email: string, password: string) => {

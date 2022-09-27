@@ -47,7 +47,6 @@ export default OnboardingScreen;
 const styles = StyleSheet.create({
     container: {
         backgroundColor: "#F4FFF9",
-        paddingTop: 20,
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "flex-start",
