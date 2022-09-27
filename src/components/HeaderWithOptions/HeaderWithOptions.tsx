@@ -1,7 +1,9 @@
-import { StyleSheet, Text, View, Image } from "react-native";
+import { StyleSheet, Text, View, Image, Pressable } from "react-native";
 import React from "react";
+import { useAuth } from "@hooks/useAuth";
 
 const HeaderWithOptions = ({ title }: { title: string }) => {
+    const { logout } = useAuth();
     return (
         <View style={styles.headerContainer}>
             <Text style={styles.headerText}>{title}</Text>
@@ -11,7 +13,9 @@ const HeaderWithOptions = ({ title }: { title: string }) => {
                     style={[styles.icon, { marginRight: 20 }]}
                     resizeMode={"contain"}
                 />
-                <Image source={require("@assets/settings-icon.png")} style={styles.icon} resizeMode={"contain"} />
+                <Pressable onPress={logout}>
+                    <Image source={require("@assets/settings-icon.png")} style={styles.icon} resizeMode={"contain"} />
+                </Pressable>
             </View>
         </View>
     );

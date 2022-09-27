@@ -1,4 +1,4 @@
-import { NavigationContainer } from "@react-navigation/native";
+import * as NavigationBar from "expo-navigation-bar";
 import {
     useFonts,
     ReadexPro_200ExtraLight,
@@ -18,6 +18,7 @@ import { useAuth } from "@hooks/useAuth";
 import ScreensContainer from "@screens/ScreensContainer";
 
 SplashScreen.preventAutoHideAsync();
+NavigationBar.setVisibilityAsync("hidden");
 
 export default function App() {
     const [fontsLoaded] = useFonts({
@@ -31,6 +32,7 @@ export default function App() {
 
     const onLayoutRootView = useCallback(async () => {
         if (fontsLoaded) {
+            await NavigationBar.setBehaviorAsync("overlay-swipe");
             await SplashScreen.hideAsync();
         }
     }, [fontsLoaded]);
